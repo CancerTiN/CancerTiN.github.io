@@ -1,0 +1,17 @@
+---
+import { renderWeave, textBitmap } from '../lib/weave';
+
+interface Props {
+  id: string;
+  cell: number;
+  /** 布标本身就是标题时给读屏软件念的文字；放在带文字的链接里时不传，按装饰处理。 */
+  label?: string;
+  animate?: boolean;
+  class?: string;
+}
+
+const { id, cell, label, animate = false, class: className } = Astro.props;
+const svg = renderWeave({ bitmap: textBitmap('jacquard'), cell, id, label, animate, className });
+---
+
+<Fragment set:html={svg} />

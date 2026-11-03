@@ -1,0 +1,3 @@
+#!/bin/sh
+# 检查提交信息里的中文标点和敏感词。
+exec node scripts/check.mjs --commit-msg "$1"

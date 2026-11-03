@@ -1,0 +1,28 @@
+{
+  "name": "cancertin.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "description": "jacquard 的个人站：Bioinformatics × AI4S",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "check": "node scripts/check.mjs",
+    "prepare": "git config core.hooksPath .githooks || true"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.6",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "astro": "^7.4.5"
+  },
+  "devDependencies": {
+    "node-html-parser": "^9.0.6",
+    "pagefind": "^1.6.0"
+  }
+}

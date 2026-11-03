@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, isoDate, postUrl, year, type Post } from '../../lib/posts';
+
+const posts = await getPosts();
+const groups = new Map<number, Post[]>();
+for (const post of posts) {
+  const y = year(post.data.pubDate);
+  groups.set(y, [...(groups.get(y) ?? []), post]);
+}
+---
+
+<Base title="文章" description="jacquard 的全部文章，按发布时间从新到旧排列。">
+  <h1>文章</h1>
+  <p class="page-intro">共 {posts.length} 篇，从新到旧排列。可以用 <a href="/rss.xml">RSS</a> 订阅更新。</p>
+  {
+    [...groups].map(([y, list]) => (
+      <section class="year-group" aria-labelledby={`y${y}`}>
+        <h2 id={`y${y}`}>{y}</h2>
+        <ul class="post-list">
+          {list.map((post) => (
+            <li>
+              <time datetime={isoDate(post.data.pubDate)}>{isoDate(post.data.pubDate)}</time>
+              <a href={postUrl(post)}>{post.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>

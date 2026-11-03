@@ -1,0 +1,68 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+import { getPosts, isoDate, postUrl, readingMinutes, zhDate, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { id: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate } = post.data;
+const minutes = readingMinutes(post.body ?? '');
+const sourceUrl = `${site.repo}/blob/main/src/content/posts/${post.id}.md`;
+---
+
+<Base title={title} description={description} type="article" publishedTime={pubDate} modifiedTime={updatedDate}>
+  <article class="post" data-pagefind-body>
+    <header class="post-header">
+      <h1>{title}</h1>
+      <p class="post-meta" data-pagefind-ignore>
+        <time datetime={isoDate(pubDate)}>{zhDate(pubDate)}</time>发布{
+          updatedDate && (
+            <>
+              ，<time datetime={isoDate(updatedDate)}>{zhDate(updatedDate)}</time>更新
+            </>
+          )
+        }，约 {minutes} 分钟读完
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <footer class="post-footer" data-pagefind-ignore>
+      <p>本文采用 <a href={site.contentLicense.url}>{site.contentLicense.name}</a> 许可：转载或改编时署名 {site.author}，并附上原文链接。</p>
+      <p><a href={sourceUrl}>在 GitHub 上查看本文的源文件</a></p>
+    </footer>
+  </article>
+  {
+    (newer || older) && (
+      <nav class="post-nav" aria-label="上一篇和下一篇">
+        {older && (
+          <a class="prev" href={postUrl(older)}>
+            <span>上一篇</span>
+            {older.data.title}
+          </a>
+        )}
+        {newer && (
+          <a class="next" href={postUrl(newer)}>
+            <span>下一篇</span>
+            {newer.data.title}
+          </a>
+        )}
+      </nav>
+    )
+  }
+</Base>

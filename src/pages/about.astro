@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="关于" description="jacquard 是谁、在做什么，以及这个网站是怎么做的。">
+  <article class="prose" data-pagefind-body>
+    <h1>关于</h1>
+    <p>我是 jacquard，做生物信息学和 AI for Science 的交叉。现在花时间最多的，是评估大模型在生物医学任务上给出的结果：标准怎么定，怎么对比，怎么分清真改进和随机波动。另一半时间在搭 Agent 工作流，把重复的分析和琐事交给 Claude Code 和 Codex，再把好用的做法写成 skill 和小工具。</p>
+    <p>这里记下能公开的东西：工具、方法和笔记。和工作相关的内部细节、数据和样本不会出现在这里。</p>
+
+    <h2>这个网站</h2>
+    <p>一个零成本的静态站：用 <a href="https://astro.build">Astro</a> 构建，托管在 GitHub Pages，推到 main 分支后由 GitHub Actions 自动检查和发布。站内搜索用 <a href="https://pagefind.app">Pagefind</a>，在任意页面按 <kbd>⌘K</kbd>（Windows 上按 <kbd>Ctrl K</kbd>）打开。可以用 <a href="/rss.xml">RSS</a> 订阅更新。<a href={site.repo}>源码</a>是公开的。</p>
+    <p>网站的代码和部分文章由 AI Agent（Claude Code、Codex）协助完成，每篇文章发布前我都会审读。</p>
+
+    <h2>许可</h2>
+    <p>文章采用 <a href={site.contentLicense.url}>{site.contentLicense.name}</a> 许可：可以转载和改编，商用也可以，只要署名 {site.author} 并附上原文链接。网站代码采用 <a href={`${site.repo}/blob/main/LICENSE`}>MIT</a> 许可。</p>
+
+    <h2>联系</h2>
+    <p>我在 GitHub 上是 <a href={site.github}>CancerTiN</a>。对文章有意见或发现错误，欢迎到<a href={`${site.repo}/issues`}>本站仓库</a>开 issue。</p>
+  </article>
+</Base>

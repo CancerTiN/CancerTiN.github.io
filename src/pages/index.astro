@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Weave from '../components/Weave.astro';
+import { intro, now, projects, site } from '../data/site';
+import { getPosts, isoDate, postUrl } from '../lib/posts';
+
+const posts = await getPosts();
+const latest = posts.slice(0, 8);
+---
+
+<Base home>
+  <section class="hero">
+    <h1><Weave id="hero" cell={8} label="jacquard" animate /></h1>
+    <script is:inline>
+      // 页面正显示着、也没要求减少动效，才让布标逐行「织」一遍；其余情况直接显示织好的样子。
+      (() => {
+        const label = document.querySelector('.hero .weave');
+        if (!label || document.visibilityState !== 'visible') return;
+        if (!matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+        label.classList.add('weave-animate');
+        // 页面没在出帧（比如被藏起来的窗口）时动画不会往前走，字母会一直停在透明的起点。
+        // 250 毫秒内一帧都没画，就撤掉动画。
+        let painted = false;
+        requestAnimationFrame(() => (painted = true));
+        setTimeout(() => painted || label.classList.remove('weave-animate'), 250);
+      })();
+    </script>
+    <p class="tagline">{site.tagline}</p>
+    <p class="intro">{intro}</p>
+  </section>
+
+  <section class="section" aria-labelledby="now">
+    <h2 id="now">在做的事</h2>
+    <ul class="now-list">
+      {now.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="projects">
+    <h2 id="projects">项目</h2>
+    <ul class="projects">
+      {
+        projects.map((p) => (
+          <li>
+            <div class="project-head">
+              <a class="project-name" href={p.url}>{p.name}</a>
+              <span class="project-years">{p.years}</span>
+            </div>
+            <p class="project-summary">{p.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="posts">
+    <h2 id="posts">文章</h2>
+    <ul class="post-list">
+      {
+        latest.map((post) => (
+          <li>
+            <time datetime={isoDate(post.data.pubDate)}>{isoDate(post.data.pubDate)}</time>
+            <a href={postUrl(post)}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+    {posts.length > latest.length && <p class="more"><a href="/posts/">全部 {posts.length} 篇文章</a></p>}
+  </section>
+</Base>

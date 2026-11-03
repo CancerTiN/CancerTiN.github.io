@@ -1,0 +1,4 @@
+#!/bin/sh
+# 提交前跑全部检查（含构建，几秒钟），没通过就不提交。
+# 推送前的 pre-push 还会再查一遍，敏感词那一项会扫全部提交历史。
+exec node scripts/check.mjs

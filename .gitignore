@@ -1,0 +1,20 @@
+# 依赖和构建产物
+node_modules/
+dist/
+.astro/
+
+# 本机工具配置
+.claude/launch.json
+.claude/settings.local.json
+.DS_Store
+*.log
+.env
+.env.*
+
+# 草稿、原始素材、敏感词清单放在仓库外（见 AGENTS.md），这里兜底再挡一次
+drafts/
+*.draft.md
+sensitive-terms.txt
+
+# 本地预览截图（给用户看，不进仓库）
+.preview/

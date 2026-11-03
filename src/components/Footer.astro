@@ -1,0 +1,16 @@
+---
+import { site } from '../data/site';
+
+const thisYear = new Date().getFullYear();
+const years = thisYear > site.since ? `${site.since}–${thisYear}` : `${site.since}`;
+const mitUrl = `${site.repo}/blob/main/LICENSE`;
+---
+
+<footer class="site-footer">
+  <p>© {years} {site.author}。文章采用 <a href={site.contentLicense.url}>{site.contentLicense.name}</a> 许可，代码采用 <a href={mitUrl}>MIT</a> 许可。</p>
+  <ul class="footer-links">
+    <li><a href="/rss.xml">RSS 订阅</a></li>
+    <li><a href={site.github}>GitHub</a></li>
+    <li><a href={site.repo}>本站源码</a></li>
+  </ul>
+</footer>
