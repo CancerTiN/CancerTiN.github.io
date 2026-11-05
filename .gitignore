@@ -8,11 +8,15 @@ dist/
 .claude/settings.local.json
 .DS_Store
 *.log
+
+# 本机环境变量；可共享的示例模板保留
 .env
 .env.*
+!.env.example
 
 # 草稿、原始素材、敏感词清单放在仓库外（见 AGENTS.md），这里兜底再挡一次
 drafts/
+/sources/
 *.draft.md
 sensitive-terms.txt
 
